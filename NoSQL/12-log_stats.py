@@ -7,16 +7,17 @@ from pymongo import MongoClient
 
 
 if __name__ == "__main__":
-    col = MongoClient("mongodb://127.0.0.1:27017").logs.nginx
+    collection = MongoClient("mongodb://127.0.0.1:27017").logs.nginx
 
-    print(str(col.count()) + " logs")
+    print(collection.count_documents({}), "logs")
     print("Methods:")
 
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
     for m in methods:
-        print("\tmethod " + m + ": " + str(col.count({"method": m})))
+        print("\tmethod", m + ":", collection.count_documents({"method": m}))
 
     print(
-        str(col.count({"method": "GET", "path": "/status"})) + " status check"
+        collection.count_documents({"method": "GET", "path": "/status"}),
+        "status check"
     )
